@@ -1,0 +1,34 @@
+zuul:
+    host:
+        connect-timeout-millis: 10000
+        socket-timeout-millis: 60000
+    # 自定义路径
+    routes:
+      # 自定义规则名,这个可以随意定义
+      myProduct:
+        path: /myProductLALA/**
+        serviceId: product
+        # 敏感头过滤
+        sensitiveHeaders:
+      # 简洁写法 serviceId：路径
+      # product: /myProductLALA/**
+
+    # 禁用某些路由，禁止移动端访问
+    ignored-patterns:
+      # 这里加 - 表示set的意思
+#      - /product/product/listForOrder
+#      - /myProductLALA/product/listForOrder
+      # 简洁写法
+      - /**/product/listForOrder
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 60000
